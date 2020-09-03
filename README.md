@@ -47,6 +47,7 @@ The log files in `logs` folder show that using single GPU costs 183.18 seconds a
 4. For reproducibility, we must manually set a random seed. `set_DDP_device()` function in `DDPUtil.py` has done this by calling `set_seed()`. This way, you will always get the same results when running the program.
 5. Functions in `DDPUtil.py` are designed to be flexible so that it supports using CPU, using single GPU and using multiple GPUs with DDP. You can change lines 231-233 of `runMNIST_DDP.py`. Writing you program like `runMNIST_DDP.py` so that you can debug with single GPU or CPU and run program with multiple GPUs after your finish designing your program.
 6. DataLoader has a parameter `num_workers` which means how many processes are processing the data in CPU for loading batch data. Increasing `num_workers` will make your program faster too. Check line 206 of `runMNIST_DDP.py`.
-7. When running program with DDP, make sure to monitor the GPU usage with `watch -n 1 nvidia-smi` and check whether all the GPUs are working properly. For example, the following picture shows the usage of GPUs when running `runMNIST_DDP.py` with four GPUs:
+7. To access custom functions except `forward` or class variables, use `model.module.function()` or `model.module.variable` since DDP has wrapped your original model.
+8. When running program with DDP, make sure to monitor the GPU usage with `watch -n 1 nvidia-smi` and check whether all the GPUs are working properly. For example, the following picture shows the usage of GPUs when running `runMNIST_DDP.py` with four GPUs:
 ![GPU usage](logs/GPU_usage.png)
 
