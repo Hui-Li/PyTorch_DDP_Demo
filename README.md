@@ -49,5 +49,6 @@ The log files in `logs` folder show that using single GPU costs 183.18 seconds a
 6. DataLoader has a parameter `num_workers` which means how many processes are processing the data in CPU for loading batch data. Increasing `num_workers` will make your program faster too. Check line 206 of `runMNIST_DDP.py`.
 7. To access custom functions except `forward` or class variables, use `model.module.function()` or `model.module.variable` since DDP has wrapped your original model.
 8. When running program with DDP, make sure to monitor the GPU usage with `watch -n 1 nvidia-smi` and check whether all the GPUs are working properly. For example, the following picture shows the usage of GPUs when running `runMNIST_DDP.py` with four GPUs:
-![GPU usage](logs/GPU_usage.png)
-
+![GPU usage](images/GPU_usage.png)
+9. If you manually stop the program using multiple GPUs, use `htop -u YOUR_USER_NAME` to check whether all the processes are really killed. For example, the following picture shows that my program `runASTGNN_DDP.py` has 4 processes with different local rank numbers. You can use `pkill -f "runASTGNN_DDP.py"` to kill all the processes partially matching the name `runASTGNN_DDP.py`.
+![Multiple GPUs](images/kill.png)
